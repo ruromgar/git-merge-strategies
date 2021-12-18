@@ -46,6 +46,7 @@ def get_something(request: HttpRequest, id: str):
                     "user_id": something_result_value.user_id,
                     "user_name": something_result_value.user_name,
                     "observations": something_result_value.observations,
+                    "observations_values": something_result_value.observations_values,
                     "user_date_of_birth": None,
                     "sample_taken_date": None,
                 },
