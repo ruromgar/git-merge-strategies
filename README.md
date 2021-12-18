@@ -40,3 +40,7 @@ git rebase main
 Git will show the differences in the response, allowing you to fix the conflict there, where it actually is.
 
 ![Rebase Strategy](images/rebase_strategy.png)
+
+## Notes
+
+Looks like GitHub itself performs a `merge` in the built-in tool - check it clicking on `Resolve conflicts` in the PR.
