@@ -27,6 +27,8 @@ def get_something(request: HttpRequest, id: str):
         return status, {"data": {}, "errors": [something_result.err()]}
     
     something_result_value = something_result.value
+    something_review = something_result_value.somethingreview_set.first()
+
     response_data: Dict[str, Any] = {
         "data": {
             "type": "something",
@@ -65,4 +67,38 @@ def get_something(request: HttpRequest, id: str):
         response_data["data"]["attributes"][
             "sample_taken_date"
         ] = something_result_value.sample_taken_date.isoformat()
+
+    if something_review:
+        response["included"] = [
+            {
+                "type": "something_review",
+                "id": something_review.id,
+                "attributes": {
+                    "review": something_review.review,
+                    "reviewed_at": something_review.reviewed_at,
+                    "reviewer_id": something_review.reviewer_id,
+                    "something_id": something_review.something_id,
+                    "created_at": something_review.created_at,
+                    "updated_at": something_review.updated_at,
+                },
+            },
+            {
+                "type": "reviewer",
+                "id": something_review.reviewer_id,
+                "attributes": {
+                    "first_name": something_review.reviewer.first_name,
+                    "last_name": something_review.reviewer.last_name,
+                    "number": something_review.reviewer.number,
+                },
+            },
+        ]
+        response["data"]["relationships"] = {
+            "something_review": {
+                "data": {
+                    "type": "something_review",
+                    "id": something_review.id,
+                }
+            }
+        }
+
     return 200, response_data
